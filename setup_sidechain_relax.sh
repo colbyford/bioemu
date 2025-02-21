@@ -6,7 +6,7 @@ BIOEMU_ENV_NAME=bioemu
 HPACKER_ENV_NAME="hpacker"
 
 # activate bioemu environment
-eval "$(conda shell.bash hook)"
+eval "$(conda shell.bash hook)" 
 conda activate $BIOEMU_ENV_NAME
 
 # install additional dependencies into bioemu
@@ -19,7 +19,7 @@ conda create -n $HPACKER_ENV_NAME --no-default-packages -y
 conda activate $HPACKER_ENV_NAME
 conda env update -f hpacker/env.yaml -n $HPACKER_ENV_NAME
 
-pip install hpacker
+pip install hpacker/
 
 set +x
 echo "PLEASE NOTE:"
