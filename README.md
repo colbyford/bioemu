@@ -29,7 +29,7 @@ Run `setup.sh` to create a conda environment named 'bioemu' with bioemu and its 
 
 ## Sampling structures
 You can sample structures for a given protein sequence using the script `sample.py`. To run a tiny test using the default model parameters and denoising settings:
-```
+```bash
 python -m bioemu.sample --sequence GYDPETGTWG --num_samples 10 --output_dir ~/test-chignolin
 ```
 The model parameters will be automatically downloaded from [huggingface](https://huggingface.co/microsoft/bioemu). See [sample.py](./src/bioemu/sample.py) for more options.
@@ -77,7 +77,7 @@ Clone and install the HPacker code and other dependencies with
 This will install some additional dependences for running MD relaxation in the `bioemu` environment. It will also install HPacker in a separate conda environment called `hpacker`.
 
 ### Use side-chain reconstruction tools
-Inside the `bioemu` enviroment, run side-chain reconstruction with:
+Inside the `bioemu` environment, run side-chain reconstruction with:
 ```bash
 python -m bioemu.sidechain_relax --pdb-path path/to/topology.pdb --xtc-path path/to/samples.xtc
 ```
@@ -92,6 +92,31 @@ There are two other options:
 To see the full list of options, call `python -m bioemu.sidechain_relax --help`.
 
 The script saves reconstructed all-heavy-atom structures in `samples_sidechain_rec.{pdb,xtc}` and MD-equilibrated structures in `samples_md_equil.{pdb,xtc}` (filename to be altered with `--outname other_name`).
+
+## Docker
+
+You can also run the model using Docker:
+
+1. Build the Docker image locally:
+
+   ```bash
+   docker build -t bioemu .
+   ```
+
+   Or pull the pre-built image from Docker Hub:
+
+   ```bash
+   docker pull cford38/bioemu:latest
+   ```
+
+2. Run the Docker container:
+
+   ```bash
+   docker run --gpus all --rm --name bioemu -it bioemu /bin/bash
+   # docker run --gpus all --rm --name bioemu -it cford38/bioemu:latest /bin/bash
+   ```
+> [!NOTE]
+> This image does not include all of the model weights, which will be downloaded the first time you run BioEmu inside in the container.
 
 ## Third-party code
 The code in the `openfold` subdirectory is copied from [openfold](https://github.com/aqlaboratory/openfold) with minor modifications. The modifications are described in the relevant source files.
